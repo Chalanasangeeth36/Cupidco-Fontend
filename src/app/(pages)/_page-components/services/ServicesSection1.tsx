@@ -10,31 +10,27 @@ interface Service {
 }
 
 export default function ServicesSection1() {
-  const [services, setServices] = useState<Service[]>([]);
+  const [serviceCard, setServiceCard] = useState<Service[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchServiceCard = async () => {
       try {
         const response = await fetch(
-          "https://65e5ed26d7f0758a76e7c528.mockapi.io/services/services"
+          "https://65e5ed26d7f0758a76e7c528.mockapi.io/services/services "
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
         const data = await response.json();
-        setServices(data);
+        setServiceCard(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.log(error);
       }
     };
-
-    fetchData();
+    fetchServiceCard();
   }, []);
 
   return (
     <div>
       <div className=" grid grid-cols-5 text-center py-5">
-        {services.map((service) => (
+        {serviceCard.map((service) => (
           <div key={service.id} className="">
             <h2>{service.service}</h2>
             <p>Amount: ${service.amount}</p>
