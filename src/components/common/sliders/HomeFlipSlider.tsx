@@ -7,8 +7,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import { Autoplay, EffectFlip } from 'swiper/modules';
-import HomeSliderCard from '../../cards/HomeSLiderCard';
-
+import HomeSliderCard from '../cards/HomeSLiderCard';
+ 
 interface HomeFlipSliderProps {
     images: string[];
 }

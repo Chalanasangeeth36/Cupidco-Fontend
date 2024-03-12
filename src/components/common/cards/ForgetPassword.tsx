@@ -8,11 +8,9 @@ import PrimaryButton from "../buttons/PrimaryButton";
 import Input from "../inputs/Input";
 import OtpInput from "../inputs/OtpInput";
 import CheckboxComponent from "../inputs/Checkbox";
-import PopupwithoutIco from "../modals/PopupwithoutIco";
-import PopupwithIco from "../modals/PopupwithIco";
-import { FiCheckCircle } from "react-icons/fi";
-import ForgetPasswordModal from "../(auth)/Forget_Password/ForgetPasswordModal";
-
+import ForgetPasswordModal from "@/app/(auth)/forget-password/ForgetPasswordModal";
+ 
+ 
 interface CardProps {
   step: number;
   onStepChange: (step: number) => void;

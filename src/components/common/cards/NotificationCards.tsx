@@ -1,7 +1,7 @@
 "use-client";
 import React from "react";
-import PrimaryButton from "../common/buttons/PrimaryButton";
-import SecondaryButton from "../common/buttons/SecondaryButton";
+import SecondaryButton from "../buttons/SecondaryButton";
+import PrimaryButton from "../buttons/PrimaryButton";
 
 type NotificationType =
   | "Reject"

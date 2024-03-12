@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import React from "react";
-import Description from "../common/texts/Description";
-
+import Description from "../texts/Description";
+ 
 interface ReviewCardProps {
     description: string;
     image: string;

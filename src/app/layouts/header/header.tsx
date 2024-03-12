@@ -1,5 +1,10 @@
-'use client';
+"use client";
+
+import AfterLogin from "./after-login/after-login";
+import BeforeLogin from "./before-login/before-login";
 
 export default function Header() {
-  return <div className="text-2xl bg-blue-200 p-10 ">Header</div>;
+  const userLogin = false;
+
+  return <div>{userLogin ? <AfterLogin /> : <BeforeLogin />}</div>;
 }
