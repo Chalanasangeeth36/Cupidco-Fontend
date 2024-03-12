@@ -1,3 +1,9 @@
+import ContactSection1 from "../_page-components/contact-us/ContactSection1";
+
 export default function Contact() {
-  return <div className="text-2xl">Contact Page</div>;
+  return (
+    <div>
+      <ContactSection1 />
+    </div>
+  );
 }

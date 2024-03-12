@@ -1,19 +1,15 @@
 "use client";
 
-import Logo from "@/components/common/logo/Logo";
-import PrivacyPolicy from "@/app/(pages)/privacy-policy/privacy-policy/PrivacyPolicy";
-import ProfilePicture from "@/components/common/profile/ProfilePicture";
-import Description from "@/components/common/texts/Description";
-import Title from "@/components/common/texts/Title";
-import { RxDashboard } from "react-icons/rx";
-import SearchBox from "@/components/common/search/SearchBox";
-import HomeCubeSlider from "@/components/common/sliders/HomeCubeSlider";
+import HomeSection1 from "./(pages)/_page-components/home/HomeSection1";
+import HomeSection2 from "./(pages)/_page-components/home/HomeSection2";
 
 export default function Home() {
   return (
     <>
       <main>
-        <HomeCubeSlider images={[]} />
+        {/* Landing page sections  */}
+        <HomeSection1 />
+        <HomeSection2 />
       </main>
     </>
   );
