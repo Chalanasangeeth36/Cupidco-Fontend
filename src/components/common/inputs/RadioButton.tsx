@@ -1,12 +1,6 @@
 "use-client";
 import React from "react";
 
-// Use this when calling the radio buttons:
-// const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | undefined }>({});
-//   const handleOptionChange = (groupName: string, value: string) => {
-//     setSelectedOptions({ ...selectedOptions, [groupName]: value });
-//   };
-
 interface RadioButtonProps {
   groupName: string;
   name: string;
@@ -20,9 +14,6 @@ interface RadioButtonProps {
   onChange?: (groupName: string, value: string) => void;
 }
 
-type SelectedOptions = {
-  [key: string]: string | undefined;
-};
 
 const RadioButton: React.FC<RadioButtonProps> = ({
   groupName,
