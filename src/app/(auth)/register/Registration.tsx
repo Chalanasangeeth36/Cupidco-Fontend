@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Title from "@/components/common/texts/Title";
 import TextField from "@/components/common/inputs/Input";
@@ -13,14 +11,14 @@ interface RegistrationProps {
   onClose: () => void;
 }
 
-const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
-  {
-    /* Radio button function */
-  }
-  const [selectedOptions, setSelectedOptions] = useState<{
-    [key: string]: string | undefined;
-  }>({});
+interface Service {
+  id: number;
+  service: string;
+  amount: number;
+  image: string;
+}
 
+const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
   };
@@ -28,9 +26,57 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
+  // radio button function
+  const [selectedOptions, setSelectedOptions] = useState<{
+    [key: string]: string | undefined;
+  }>({});
   const handleOptionChange = (groupName: string, value: string) => {
     setSelectedOptions({ ...selectedOptions, [groupName]: value });
   };
+
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    dob: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+    gender: "",
+  });
+
+  const handleChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "https://65e02f84d3db23f762488898.mockapi.io/api/v1/cupidco/user",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Data posted successfully!");
+      } else {
+        console.error("Failed to post data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error posting data:", error);
+    }
+  };
+
 
   return (
     <div className="relative rounded-2xl shadow-lg overflow-hidden w-full max-xs:w-full sm:w-4/5 md:w-4/4 lg:w-2/3 xl:w-2/3 sm:p-10 xl:p-16 bg-opacity-80 lg:py-[2%] md:py-[2%]">
@@ -64,22 +110,31 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
           <div className="space-y-4">
             <div className="flex flex-row gap-2">
               <TextField
+                value={userData.firstName}
+                onChange={handleChange}
+                name="firstName"
                 label="First Name"
                 type="text"
-                id="FName"
+                id="firstName"
                 width="w-full"
                 bgColor="bg-transparent"
                 height="h-1"
               />
               <TextField
+                value={userData.lastName}
+                onChange={handleChange}
+                name="lastName"
                 label="Last Name"
                 type="text"
-                id="LName"
+                id="lastName"
                 bgColor="bg-transparent"
                 height="h-1"
               />
             </div>
             <TextField
+              value={userData.dob}
+              onChange={handleChange}
+              name="dob"
               label="Date of birth"
               type="text"
               id="dob"
@@ -88,14 +143,20 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
               height="h-1 "
             />
             <TextField
+              name="phoneNumber"
+              value={userData.phoneNumber}
+              onChange={handleChange}
               label="Phone Number"
-              type="text"
-              id="number"
+              type="Number"
+              id="phoneNumber"
               width="w-full"
               bgColor="bg-transparent"
               height="h-1 "
             />
             <TextField
+              value={userData.email}
+              onChange={handleChange}
+              name="email"
               label="Email"
               type="email"
               id="mail"
@@ -104,15 +165,10 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
               height="h-1 "
             />
             <TextField
+              value={userData.password}
+              onChange={handleChange}
+              name="password"
               label="Password"
-              type="password"
-              id="password"
-              width="w-full"
-              bgColor="bg-transparent"
-              height="h-1 "
-            />
-            <TextField
-              label="Retype Your Password"
               type="password"
               id="password"
               width="w-full"
@@ -178,7 +234,7 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
             width="w-full"
             radius="rounded-xl lg:rounded-md xl:rounded-lg"
             fontSize="lg:text-md xl:text-lg xs:text-xs text-lg max-xs:text-sm"
-            onClick={toggleLoginModal}
+            onClick={handleSubmit}
           />
           <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />
           <div className="lg:space-y-2 xl:space-y-3 font-Quicksand">

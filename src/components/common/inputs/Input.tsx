@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface TextFieldProps {
   id: string;
+  value: string;
+  name: string;
   label: string;
   type?: string;
   width?: string;
@@ -12,10 +14,13 @@ interface TextFieldProps {
   formatPrice?: boolean;
   required?: boolean;
   bgColor?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TextField: React.FC<TextFieldProps> = ({
   id,
+  value,
+  name,
   label,
   type = "text",
   disabled,
@@ -26,9 +31,10 @@ const TextField: React.FC<TextFieldProps> = ({
   radius = "rounded-lg",
   required,
   bgColor = "bg-white",
+  onChange,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(value);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -40,6 +46,9 @@ const TextField: React.FC<TextFieldProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+    if (onChange) {
+      onChange(event);
+    }
   };
 
   const inputStyle = {
@@ -50,6 +59,8 @@ const TextField: React.FC<TextFieldProps> = ({
   return (
     <div className="relative font-playfair-display font-normal">
       <input
+        value={inputValue}
+        name={name}
         id={id}
         disabled={disabled}
         placeholder=" "
@@ -72,7 +83,6 @@ const TextField: React.FC<TextFieldProps> = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
-        value={inputValue}
         required={required}
       />
       <label

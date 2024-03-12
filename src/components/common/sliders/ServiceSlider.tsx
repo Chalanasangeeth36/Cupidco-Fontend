@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SecondaryButton from "../buttons/SecondaryButton";
 import Description from "../texts/Description";
 import Title from "../texts/Title";
@@ -115,7 +115,37 @@ const CardComponent: React.FC<CardComponentProps> = ({
   );
 };
 
+type CardData = {
+  overlayTitle: string;
+  gradientTitle: string;
+  descriptionText: string;
+  buttonText: string;
+  image: string;
+};
+
 const SliderComponent = () => {
+  const [cardsData, setCardsData] = useState<CardData[]>([]);
+
+  useEffect(() => {
+    // Fetch data from API
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://65e02f84d3db23f762488898.mockapi.io/api/v1/cupidco/service-card"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+        setCardsData(data); // Assuming the data returned from the API is an array of card objects
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures the effect runs only once on component mount
+
   return (
     <Swiper
       loop={true}
@@ -141,78 +171,20 @@ const SliderComponent = () => {
       pagination={{ clickable: true }}
       modules={[FreeMode, Pagination, Autoplay]}
     >
-      <SwiperSlide>
-        <div className="mb-10">
-          <CardComponent
-            overlayTitle="Title 1"
-            gradientTitle="Title 1"
-            descriptionText="Description for card 1"
-            buttonText="Learn More"
-            onButtonClick={() => console.log("Button 1 clicked")}
-            image="/images/SliderImage1.png"
-          />
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="mb-10">
-          <CardComponent
-            overlayTitle="Title 1"
-            gradientTitle="Title 1"
-            descriptionText="Description for card 1"
-            buttonText="Learn More"
-            onButtonClick={() => console.log("Button 1 clicked")}
-            image="/images/SliderImage2.png"
-          />
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="mb-10">
-          <CardComponent
-            overlayTitle="Title 1"
-            gradientTitle="Title 1"
-            descriptionText="Description for card 1"
-            buttonText="Learn More"
-            onButtonClick={() => console.log("Button 1 clicked")}
-            image="/images/SliderImage3.png"
-          />
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="mb-10">
-          <CardComponent
-            overlayTitle="Title 1"
-            gradientTitle="Title 1"
-            descriptionText="Description for card 1"
-            buttonText="Learn More"
-            onButtonClick={() => console.log("Button 1 clicked")}
-            image="/images/SliderImage1.png"
-          />
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="mb-10">
-          <CardComponent
-            overlayTitle="Title 1"
-            gradientTitle="Title 1"
-            descriptionText="Description for card 1"
-            buttonText="Learn More"
-            onButtonClick={() => console.log("Button 1 clicked")}
-            image="/images/SliderImage2.png"
-          />
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className="mb-10">
-          <CardComponent
-            overlayTitle="Title 1"
-            gradientTitle="Title 1"
-            descriptionText="Description for card 1"
-            buttonText="Learn More"
-            onButtonClick={() => console.log("Button 1 clicked")}
-            image="/images/SliderImage3.png"
-          />
-        </div>
-      </SwiperSlide>
+      {cardsData.map((card, index) => (
+        <SwiperSlide key={index}>
+          <div className="mb-10">
+            <CardComponent
+              overlayTitle={card.overlayTitle}
+              gradientTitle={card.gradientTitle}
+              descriptionText={card.descriptionText}
+              buttonText={card.buttonText}
+              onButtonClick={() => console.log(`Button ${index + 1} clicked`)}
+              image={card.image}
+            />
+          </div>
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 };
